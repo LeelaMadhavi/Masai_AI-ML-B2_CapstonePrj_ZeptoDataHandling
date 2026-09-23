@@ -1,4 +1,3 @@
-# Masai_AI-ML-B2_CapstonePrj_ZeptoDataHandling
 # Zepto Data & AI Platform
 
 # Zepto AI-Powered Data Intelligence Platform:
