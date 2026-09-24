@@ -70,6 +70,22 @@ Outlier counts:
 # Multivariate "data story": 
   Produce at least 4 distinct charts (any combination of bar/box/scatter/heatmap/pair-plot) that together build a coherent argument about who was more likely to survive      and why. Each chart must be accompanied by a 2–4 sentence written interpretation in your README/notebook — a chart with no interpretation does not count.
   As an exploratory check (not yet the modeling pipeline's own preprocessing — that is handled separately in Task 8 below), standardize age and fare using the z-score        formula z = (x − mean) / std on the full cleaned DataFrame (you may use StandardScaler or compute it manually). Show a before/after comparison (e.g., a printed summary     of means/stds, or overlaid distribution plots) confirming the transformed columns have (approximately) mean 0 and standard deviation 1. This is purely an EDA-stage         # *sanity check:* It does not feed into the modeling pipeline, which performs its own train-only scaling.
+
+# Plot-1
+image.png - barplot
+Survival rates differ substantially by sex, with female passengers having a higher survival rate than male passengers in the Titanic dataset. This indicates that sex was strongly associated with survival outcomes. However, sex alone does not explain the complete pattern, so passenger class should also be considered.
+
+# Plot-2
+image.png - barplot
+Survival rates vary across both passenger class and sex. Within the passenger classes, female passengers generally had higher survival rates than male passengers, while passengers in higher classes generally had higher survival rates than those in lower classes. This suggests that survival was associated with a combination of sex and passenger class rather than sex alone.
+
+# Plot-3
+image.png - paiplot
+The pairplot provides a multivariate view of the relationships among passenger class, age, fare, and survival status. The use of survival as the hue helps identify differences in the distributions and relationships between survivors and non-survivors. Passenger class and fare show a noticeable relationship, reflecting differences in ticket pricing across classes. The plot also indicates variation in age and fare among passengers with different survival outcomes. Overall, the pairplot supports the observation that survival was associated with multiple passenger characteristics rather than a single variable.
+
+# Plot-4
+image.png - boxplot
+The age distributions of survivors and non-survivors show differences in their central tendency and spread. Younger passengers are represented among the survivors, although age alone does not clearly separate survivors from non-survivors. This suggests that age may have been associated with survival alongside sex and passenger class.
   
 # Part B — Predictive modeling, continuing from the same cleaned data
 - Split the data into train/test sets first, using a stratified split (justify why stratification matters given the class balance you observed in Task 1). Use survived as    the classification target.
