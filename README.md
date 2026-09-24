@@ -61,6 +61,12 @@ This is deliberately one cohesive pipeline, not two disconnected exercises: you 
 - Apply missing-value handling per column, following this threshold rule (under 5% missing → drop those rows; 5%–30% missing → impute) — and for any column whose missing     rate is so high that imputation would be unreliable, explicitly decide to either drop the column or encode "missing" as its own category, and justify that decision in      writing. State the exact percentage you measured for each affected column before choosing its strategy.
 # - Univariate analysis:
   Plot a histogram and a box plot for both age and fare. Using the IQR rule (outliers are points outside [Q1 − 1.5×IQR, Q3 + 1.5×IQR]), report how many outliers each         column has. Compute mean, median, and mode for fare, and state in writing whether its distribution is right-skewed, left-skewed, or symmetric, referencing the              mean/median/mode ordering.
+
+  Outlier counts:
+  {'fare': 114, 'age': 65}
+    <img width="563" height="415" alt="image" src="https://github.com/user-attachments/assets/78c83064-128b-4761-a149-7baa4a417464" />
+
+
 # - Bivariate analysis: 
   Using boolean masking (with &/| combinations), compute and report survival rate broken down by (a) sex, (b) pclass, and (c) sex and pclass together. Then compute a         correlation matrix restricted to exactly these six columns: survived, pclass, age, sibsp, parch, and fare — the dataset's numeric columns, including survived (0/1-         valued) as the natural numeric target. Exclude the boolean-typed columns adult_male and alone from the correlation matrix: they are derived/redundant flags (directly       computable from sex/age and from sibsp+parch respectively), not independent measured features. Render the resulting 6×6 matrix as a heatmap using sns.heatmap, with a       short written interpretation of the two strongest correlations you observe — defined precisely as the two feature pairs with the largest absolute off-diagonal              correlation coefficients (rank all off-diagonal pairs by abs(correlation) and take the top two).
 # Multivariate "data story": 
