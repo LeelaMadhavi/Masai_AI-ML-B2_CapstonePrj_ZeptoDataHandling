@@ -64,11 +64,8 @@ This is deliberately one cohesive pipeline, not two disconnected exercises: you 
 
   Outlier counts:
   {'fare': 114, 'age': 65}
-    
-    <img width="563" height="415" alt="image" src="https://github.com/user-attachments/assets/e7053cf8-8927-4104-9c11-ce1551e5a9d0" />
-  
     <img width="563" height="415" alt="image" src="https://github.com/user-attachments/assets/78c83064-128b-4761-a149-7baa4a417464" />
-
+    <img width="563" height="415" alt="image" src="https://github.com/user-attachments/assets/78c83064-128b-4761-a149-7baa4a417464" />
 
 # - Bivariate analysis: 
   Using boolean masking (with &/| combinations), compute and report survival rate broken down by (a) sex, (b) pclass, and (c) sex and pclass together. Then compute a         correlation matrix restricted to exactly these six columns: survived, pclass, age, sibsp, parch, and fare — the dataset's numeric columns, including survived (0/1-         valued) as the natural numeric target. Exclude the boolean-typed columns adult_male and alone from the correlation matrix: they are derived/redundant flags (directly       computable from sex/age and from sibsp+parch respectively), not independent measured features. Render the resulting 6×6 matrix as a heatmap using sns.heatmap, with a       short written interpretation of the two strongest correlations you observe — defined precisely as the two feature pairs with the largest absolute off-diagonal              correlation coefficients (rank all off-diagonal pairs by abs(correlation) and take the top two).
