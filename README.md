@@ -64,6 +64,7 @@ This is deliberately one cohesive pipeline, not two disconnected exercises: you 
 
   Outlier counts:
   {'fare': 114, 'age': 65}
+    
     <img width="563" height="415" alt="image" src="https://github.com/user-attachments/assets/e7053cf8-8927-4104-9c11-ce1551e5a9d0" />
   
     <img width="563" height="415" alt="image" src="https://github.com/user-attachments/assets/78c83064-128b-4761-a149-7baa4a417464" />
