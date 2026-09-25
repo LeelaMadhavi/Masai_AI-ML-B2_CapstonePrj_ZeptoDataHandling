@@ -1,0 +1,12 @@
+pip3 install pandas
+pip3 install sqlite3
+pip3 install beatifulsoup4
+pip3 install requests
+pip3 install matplotlib
+pip3 install seaborn
+pip3 install scikit-learn
+pip3 install groq chromadb -q
+pip3 install chromadb sentence-transformers
+pip3 install langgraph
+pip3 install load_dotenv
+pip3 install fastapi
