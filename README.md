@@ -58,10 +58,9 @@ This is deliberately one cohesive pipeline, not two disconnected exercises: you 
 - Apply missing-value handling per column, following this threshold rule (under 5% missing → drop those rows; 5%–30% missing → impute) — and for any column whose missing     rate is so high that imputation would be unreliable, explicitly decide to either drop the column or encode "missing" as its own category, and justify that decision in      writing. State the exact percentage you measured for each affected column before choosing its strategy.
 # - Univariate analysis:
   Plot a histogram and a box plot for both age and fare. Using the IQR rule (outliers are points outside [Q1 − 1.5×IQR, Q3 + 1.5×IQR]), report how many outliers each         column has. Compute mean, median, and mode for fare, and state in writing whether its distribution is right-skewed, left-skewed, or symmetric, referencing the              mean/median/mode ordering.
-![Boxplot](./images/Boxplot_on_fare_column.png)
 <img src="https://github.com/LeelaMadhavi/Masai_AI-ML-B2_CapstonePrj_ZeptoDataHandling/blob/main/images/Boxplot_on_fare_column.png?raw=true" alt="Boxplot_on_fare_column.png"/><img width="572" height="415" alt="image" src="https://github.com/user-attachments/assets/077e8da4-2362-49b1-901c-63974f19ab65" />
 
-![Boxplot](./images/Boxplot_on_age_column.png)
+<img src="https://github.com/LeelaMadhavi/Masai_AI-ML-B2_CapstonePrj_ZeptoDataHandling/blob/main/images/Boxplot_on_age_column.png?raw=true" alt="Boxplot_on_age_column.png"/>
 Outlier counts:
 {'fare': 114, 'age': 65}
 
