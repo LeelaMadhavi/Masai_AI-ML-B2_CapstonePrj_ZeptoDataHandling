@@ -594,17 +594,19 @@ For implementation of Tasks in all the three Modules, kindly refer below descrip
    its response status code explicitly, and fall back to the fixed rate above on any failure. This is 
    entirely optional; your price_inr column must be fully correct using only the required fixed-rate 
    baseline, since that path alone is what gets graded.)
-4. Design a normalized SQLite schema with at least two tables sharing a primary/foreign key 
+        price_inr = price_gbp * 105.50
+   
+5. Design a normalized SQLite schema with at least two tables sharing a primary/foreign key 
    relationship, for example:
    categories(category_id INTEGER PRIMARY KEY, category_name TEXT UNIQUE)
    books(book_id INTEGER PRIMARY KEY, title TEXT, price_gbp REAL, price_inr REAL, rating INTEGER, in_stock INTEGER, category_id INTEGER REFERENCES categories(category_id))
-5. (You may rename columns/tables, but the two-table PK/FK structure is required.)
-6. Using Python's sqlite3 (or pandas.DataFrame.to_sql), insert your cleaned, converted data 
+6. (You may rename columns/tables, but the two-table PK/FK structure is required.)
+7. Using Python's sqlite3 (or pandas.DataFrame.to_sql), insert your cleaned, converted data 
     into this schema. Then write and execute at least 5 SQL queries against the database that 
     collectively demonstrate: SELECT/WHERE, ORDER BY, LIMIT, DISTINCT, and (IN or  
     BETWEEN) — plus at least one JOIN between your two tables (e.g., "list the 10 highest-rated 
     books per category"). Save each query string and its output.
-7. Read back at least two of the above query results into pandas DataFrames using 
+8. Read back at least two of the above query results into pandas DataFrames using 
     pd.read_sql(...), and separately reproduce the join-query's result using pd.merge(...) directly 
     on your in-memory DataFrames (no SQL) — show that both approaches produce equivalent 
     Output.
