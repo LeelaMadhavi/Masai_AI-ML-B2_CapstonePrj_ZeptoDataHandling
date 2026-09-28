@@ -678,6 +678,7 @@ Embeddings — no API needed: generate embeddings locally using the open-source 
 # RAG Pipeline Architecture
 The Zepto Data & AI Platform implements an end-to-end Retrieval-Augmented Generation (RAG) pipeline that transforms Zepto policy documents into searchable vector representations and uses semantic retrieval to provide grounded answers to user queries.
 Full RAG Pipeline
+
                                                     ┌──────────────────────────┐
                                                     │  1. INGESTION            │
                                                     │  Zepto Policy Documents  │
@@ -784,7 +785,8 @@ The final response is validated using the Pydantic FinalAnswer model before bein
 
 LangGraph Control Flow
 Before retrieval, the query passes through the classify_intent node.
-                      ┌──────────────────────┐
+
+                       ┌──────────────────────┐
                        │      User Query      │
                        └──────────┬───────────┘
                                   │
@@ -821,20 +823,21 @@ MOCK_LLM=1
 
 the application runs in mock mode, which does not require a Groq API call.
 Mock Mode
-User Query
-    │
-    ▼
-classify_intent
-    │
-    ├── policy_question ──► retrieve_and_answer
-    │                         │
-    │                         ├── Query embedding
-    │                         ├── ChromaDB top-3 retrieval
-    │                         └── Mock grounded response
-    │
-    └── general_question ──► direct_answer
-                              │
-                              └── Fixed mock response
+
+     User Query
+         │
+         ▼
+     classify_intent
+         │
+         ├── policy_question ──► retrieve_and_answer
+         │                         │
+         │                         ├── Query embedding
+         │                         ├── ChromaDB top-3 retrieval
+         │                         └── Mock grounded response
+         │
+         └── general_question ──► direct_answer
+                                   │
+                                   └── Fixed mock response
 
 For policy questions, retrieval still happens in mock mode. The retrieved context is used to construct a simple deterministic response.
 For general questions, direct_answer returns the fixed mock response:
@@ -846,21 +849,22 @@ MOCK_LLM=0
 
 the optional Groq LLM is enabled.
 The retrieval process remains the same:
-Query
-  ↓
-Embedding
-  ↓
-ChromaDB
-  ↓
-Top-3 Retrieved Context
-  ↓
-Structured Grounding Prompt
-  ↓
-Groq LLM
-  ↓
-JSON
-  ↓
-Pydantic FinalAnswer Validation
+
+     Query
+       ↓
+     Embedding
+       ↓
+     ChromaDB
+       ↓
+     Top-3 Retrieved Context
+       ↓
+     Structured Grounding Prompt
+       ↓
+     Groq LLM
+       ↓
+     JSON
+       ↓
+     Pydantic FinalAnswer Validation
 
 In real-LLM mode:
 classify_intent can use the LLM for intent classification.
@@ -870,24 +874,25 @@ The generated JSON is validated against the FinalAnswer Pydantic schema.
 Key Architecture Principle
 The RAG retrieval pipeline is independent of the MOCK_LLM toggle. The toggle changes how the generation/classification stages behave, not whether semantic retrieval is performed for policy questions.
 Therefore, the core data flow is:
-Policy Documents
-      ↓
-SentenceTransformer
-      ↓
-ChromaDB: zepto_documents
-      ↓
-User Query
-      ↓
-LangGraph classify_intent
-      ↓
-retrieve_and_answer
-      ↓
-Top-3 Retrieved Context
-      ↓
-Mock Response OR Groq LLM
-      ↓
-Pydantic FinalAnswer
-      ↓
-FastAPI /ask
+
+     Policy Documents
+           ↓
+     SentenceTransformer
+           ↓
+     ChromaDB: zepto_documents
+           ↓
+     User Query
+           ↓
+     LangGraph classify_intent
+           ↓
+     retrieve_and_answer
+           ↓
+     Top-3 Retrieved Context
+           ↓
+     Mock Response OR Groq LLM
+           ↓
+     Pydantic FinalAnswer
+           ↓
+     FastAPI /ask
 
 This architecture separates document indexing, semantic retrieval, orchestration, answer generation, and API serving, making each stage independently testable and allowing the real LLM to be enabled without changing the fundamental RAG retrieval workflow.
