@@ -45,14 +45,14 @@ You may build the three modules in any order, but they are meant to read as one 
 - Pydantic
 - Data validation and structured output
 - FastAPI
-- REST API development
+
 - Git/GitHub
   Version control
 
 # 4. Project Architecture
 The overall application follows this workflow:
 
-                        ┌───────────────────────┐
+                         ┌───────────────────────┐
                          │       User Query      │
                          └───────────┬───────────┘
                                      │
@@ -371,12 +371,16 @@ LangGraph is used to orchestrate the application as a state-based workflow.
 
 # 13. API Endpoint
   POST /ask
-  The endpoint accepts a JSON request containing a user query.
+  The endpoint accepts a JSON request containing a user quer
+
+
   Request
   {
     "query": "How much does priority delivery cost?"
   }
-  Response
+  
+
+Response
   {
     "answer": "Based on the retrieved context: ...",
     "sources": [
@@ -413,7 +417,8 @@ LangGraph is used to orchestrate the application as a state-based workflow.
   }
   
   For a general question, ChromaDB retrieval is not performed.
-  15. Structured Response Schema
+  
+# 15. Structured Response Schema
   The final API response is validated using Pydantic.
   class FinalAnswer(BaseModel):
       answer: str
@@ -427,7 +432,8 @@ LangGraph is used to orchestrate the application as a state-based workflow.
   
   General Question:
   confidence = 1.0
-  16. Mock LLM and Real LLM Modes
+
+# 16. Mock LLM and Real LLM Modes
   The application supports two execution modes.
   Mock Mode — Default
   MOCK_LLM=1
@@ -485,7 +491,7 @@ LangGraph is used to orchestrate the application as a state-based workflow.
   API keys should be loaded through environment variables rather than hard-coded in Python source code.
 
 # 19. End-to-End Workflow
-                ┌──────────────────────┐
+                 ┌──────────────────────┐
                  │   Zepto Documents    │
                  └──────────┬───────────┘
                             │
@@ -565,7 +571,7 @@ LangGraph is used to orchestrate the application as a state-based workflow.
     Git remote -v
     Git push -u origin main 
 
-For implementation of Tasks in all the three Modules, kindly refer below description module-wise
+# For implementation of Tasks in all the three Modules, kindly refer below description module-wise
 
 # Module-1 - (/data_pipeline)
   Zepto's analysts need a way to benchmark catalog-style pricing and availability data before it ever reaches a dashboard. In this module you'll play that data-engineering   role: scrape live product data from a public scraping-practice site, clean it, enrich it with the project's baseline fixed-rate currency conversion, and load it into a     properly normalized relational database that you then query with both SQL and pandas — exactly the kind of raw-to-relational pipeline a catalog/competitive-intelligence    workflow needs.
@@ -609,6 +615,14 @@ For implementation of Tasks in all the three Modules, kindly refer below descrip
     on your in-memory DataFrames (no SQL) — show that both approaches produce equivalent 
     Output.
 
+
+
+
+category wise books data - INNERJOIN Query Resultset size:- 71
+
+
+Inner join Query - using pd.merge
+Inner Join Result (pd.merge) set size: 71
 # Module-2 - (/analytics)
 This module is Zepto's analyst-to-data-scientist workflow in one pass: profile a dataset, handle its imperfections defensibly, tell a clear visual stor about it, and then build and rigorously evaluate a full predictive-modeling pipeline on top of the same data. Load the classic Titanic dataset once, through Seaborn's built-in loader: sns.load_dataset('titanic'). Note that this loader requires internet access the first time it runs, since it fetches the dataset from Seaborn's online data repository and caches it locally; subsequent runs on the same machine reuse the cache and do not need the network again.
     
@@ -623,14 +637,131 @@ This is deliberately one cohesive pipeline, not two disconnected exercises: you 
     
 - Univariate analysis: plot a histogram and a box plot for both age and fare. Using the IQR rule (outliers are points outside [Q1 − 1.5×IQR, Q3 + 1.5×IQR]), report how many outliers each column has. Compute mean, median, and mode for fare, and state in writing whether its distribution is right-skewed, left-skewed, or symmetric, referencing the mean/median/mode ordering.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 Outlier counts:
 {'fare': 114, 'age': 65}
 
-    
+![Histogram on Age Column](./images/histogram_on_age_column.png)
+
+![Histogram on fare Column](./images/histogram_on_fare_column.png)
+
+![Boxplot on Age Column](./images/Boxplot_on_age_column.png)
+
+![Boxplot on fare Column](./images/Boxplot_on_fare_colum)
+
+![Boxplot on fare Column](./images/Boxplot_on_fare_column.png)
+
+
+
 - Bivariate analysis: using boolean masking (with &/| combinations), compute and report survival rate broken down by (a) sex, (b) pclass, and (c) sex and pclass together. Then compute a correlation matrix restricted to exactly these six columns: survived, pclass, age, sibsp, parch, and fare — the dataset's numeric columns, including survived (0/1-valued) as the natural numeric target. Exclude the boolean-typed columns adult_male and alone from the correlation matrix: they are derived/redundant flags (directly computable from sex/age and from sibsp+parch respectively), not independent measured features. Render the resulting 6×6 matrix as a heatmap using sns.heatmap, with a short written interpretation of the two strongest correlations you observe — defined precisely as the two feature pairs with the largest absolute off-diagonal correlation coefficients (rank all off-diagonal pairs by abs(correlation) and take the top two).
-    
-- Multivariate "data story": produce at least 4 distinct charts (any combination of bar/box/scatter/heatmap/pair-plot) that together build a coherent argument about who was more likely to survive and why. Each chart must be accompanied by a 2–4 sentence written interpretation in your README/notebook — a chart with no interpretation does not count.
-    
+
+
+![Heatmap on 6 features](./images/heatmap_on_6_features.png)
+
+For the standard Titanic dataset, the two strongest **absolute off-diagonal correlations** among the six required variables are:
+
+1. **`pclass` and `fare` (≈ −0.55):** A moderate negative correlation. Since `pclass` is coded 1 = first class and 3 = third class, higher class numbers are generally associated with lower fares.
+
+2. **`sibsp` and `parch` (≈ +0.41):** A moderate positive correlation, indicating that passengers with more siblings/spouses aboard also tended to have more parents/children aboard.
+
+
+
+- Multivariate "data story": produce at least 4 distinct charts (any combination of bar/box/scatter/heatmap/pair-plot) that together build a coherent argument about who was more likely to survive and why. Each chart must be accompanied by a 
+- 2–4 sentence written interpretation in your README/notebook — a chart with no interpretation does not count.
+-
+- ![Barplot on SurvivalRateBySex](./images/Barplot_SurvivalRateBySex.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Female passengers had a substantially higher survival rate than male passengers.
+This indicates that sex was an important factor associated with survival in the Titanic dataset.
+
+![Barplot on SurvivalRateBySex&Pclass](./images/Barplot_SurvivalRateBySex&Pclass.png)
+
+
+Survival rates varied by both sex and passenger class, with female passengers generally surviving at higher rates than males.
+Within each sex, passengers in higher classes generally had better survival rates than those in lower classes.
+This suggests that both sex and socioeconomic status, represented by Pclass, were associated with survival.-
+
+![Boxplot on SurvivalStatuByAge](./images/Boxplot_SurvivalStatusByAge.png)
+
+
+
+
+
+
+
+The age distributions of survivors and non-survivors show differences in their central tendency and spread.
+Survivors tend to include a wider range of ages, while non-survivors show a different median and distribution.
+This suggests that age was also associated with survival, although there is considerable overlap between the two groups.
+
+![Pairplot on SurvivalRateBySex&Age](./images/PairPlot_PairwseRel_AmngTitanicSurvls.png)
+
 - As an exploratory check (not yet the modeling pipeline's own preprocessing — that is handled separately in Task 8 below), standardize age and fare using the z-score formula z = (x − mean) / std on the full cleaned DataFrame (you may use StandardScaler or compute it manually). Show a before/after comparison (e.g., a printed summary of means/stds, or overlaid distribution plots) confirming the transformed columns have (approximately) mean 0 and standard deviation 1. This is purely an EDA-stage sanity check; it does not feed into the modeling pipeline, which performs its own train-only scaling.
 
 # Part B — Predictive modeling, continuing from the same cleaned data
@@ -642,9 +773,21 @@ Outlier counts:
 
 - Evaluate all three models with: a confusion matrix, accuracy, precision, recall, F1 score, and an ROC curve with AUC. Present these side by side in a single comparison table.
 - Imbalance handling comparison: report survived/not-survived class balance, then retrain (any one of the three models is enough for this sub-task) three ways — (a) baseline/no handling, (b) class_weight='balanced', (c) SMOTE oversampling applied only to the training fold (to avoid leakage) — and compare precision/recall/F1 across the three variants, with a short written conclusion on which imbalance strategy worked best and why.
+
+- Conclusion
+
+Class weighting and SMOTE improved the model's ability to identify the minority class compared with the baseline model.
+The best imbalance-handling strategy should be selected based on the highest F1-score, as it balances precision and recall.
+SMOTE can improve minority-class recall by creating synthetic training samples, while class_weight='balanced' achieves this without generating new data.
+In this comparison, the strategy with the strongest precision–recall balance provides the most suitable approach for the Titanic survival prediction task.
+- 
 - Hyperparameter tuning: run GridSearchCV over the Random Forest's n_estimators, max_depth, and max_features, report the best parameter combination and the corresponding out-of-bag (OOB) score. Because oob_score_ is only populated when oob_score=True is passed at construction time, you must construct the estimator as RandomForestClassifier(oob_score=True, ...) (together with your other chosen/tuned parameters) — otherwise the OOB score will not be available to report.
 - Regression side-task: using the same dataset, predict fare from the other available features with a multivariate linear regression. Report MAE, RMSE, R², and Adjusted R², and produce a residual plot, stating in writing whether it shows heteroscedasticity (a non-random spread of residuals).
-- Write a model comparison table that presents the three classifiers' metrics (accuracy, precision, recall, F1, AUC) side by side, and the regression model's metrics (MAE, RMSE, R², Adjusted R²) side by side as their own separate columns. Classification metrics and regression metrics are on different scales and are not directly comparable numbers — the table must present them as two distinct metric groups (one per model type), not implied to be on a single shared scale. Add a 3–5 sentence final written recommendation of which classifier you would deploy and why, referencing specific metric values.
+- Write a model comparison table that presents the three classifiers' metrics (accuracy, precision, recall, F1, AUC) side by side, and the regression model's metrics (MAE, RMSE, R², Adjusted R²) side by side as their own separate columns. Classification metrics and regression metrics are on different scales and are not directly comparable numbers — the table must present them as two distinct metric groups (one per model type), not implied to be on a single shared scale. Add a 3–5 sentence final written recommendation of which classifier you would deploy and why, referencing specific metric values
+- #.
+-Recommendation:
+- Based on the classification results, Random Forest would be the classifier to deploy for this task. It achieves the highest accuracy of 0.8034, the highest recall of 0.7500, and the highest F1-score of 0.7445 among the three classifiers. Although Decision Tree has slightly higher precision (0.7759) and AUC (0.8525) than Random Forest (0.7391 precision and 0.8293 AUC), Random Forest provides a stronger balance between precision and recall as reflected in its F1-score. Logistic Regression performs substantially lower on recall (0.0588) and F1-score (0.1081) in this comparison.
+-  
 - Save your best-performing complete pipeline — the fitted preprocessing steps (imputer/encoder/scaler, or your ColumnTransformer) together with the final estimator, as a single combined object (e.g. a scikit-learn Pipeline) — to disk using joblib.dump(full_pipeline, ...). Do not save the bare estimator alone: the saved artifact must be usable end-to-end on raw, unpreprocessed new data. Include a short script/cell that reloads it with joblib.load and confirms it still predicts correctly on raw input.
 
 # Module-3 - (/support_assistant)
@@ -661,11 +804,13 @@ Embeddings — no API needed: generate embeddings locally using the open-source 
 
 3. Build a LangGraph StateGraph with a TypedDict state and at least 3 nodes. Every node's generation step must branch on the MOCK_LLM toggle from above — the mock branch is the required, graded baseline; the real-LLM branch is the optional MOCK_LLM=0 extension:
    
- - classify_intent — classifies the incoming query as either policy_question (needs retrieval from the Zepto policy corpus) or general_question (does not need retrieval). Mock mode (MOCK_LLM unset or 1 — graded baseline): classify using a keyword heuristic — if the lowercased query contains any of "delivery", "return", "refund", "membership", "tracking", "cancel", "gift card", or "support hours", classify it policy_question; otherwise classify it general_question. No LLM call is made. Optional MOCK_LLM=0 extension: call the LLM to classify instead.
- - retrieve_and_answer — for policy_question queries: embeds the query and retrieves the top-3 most similar chunks from ChromaDB via cosine similarity — this retrieval step always runs for real, in both modes, since embedding and ChromaDB need no API key and no network call. Only the final answer-generation step branches on MOCK_LLM. Mock mode (graded baseline): instead of calling an LLM, return a canned templated answer of the form f"Based on the retrieved context: {top_chunk_snippet}", where top_chunk_snippet is a short excerpt (e.g. the first ~200 characters) of the single most similar retrieved chunk. Optional MOCK_LLM=0 extension: prompt the real LLM (using your structured template from Task 2) to answer grounded only in the retrieved chunks.
- - direct_answer — for general_question queries: mock mode (graded baseline): return a fixed canned string (e.g. "I can only answer questions about Zepto policies right now."), with no LLM call. Optional MOCK_LLM=0 extension: prompt the LLM directly, with no retrieval.
+      O  classify_intent — classifies the incoming query as either policy_question (needs retrieval from the Zepto policy corpus) or general_question (does not need retrieval). Mock mode (MOCK_LLM unset or 1 — graded baseline): classify using a keyword heuristic — if the lowercased query contains any of "delivery", "return", "refund", "membership", "tracking", "cancel", "gift card", or "support hours", classify it policy_question; otherwise classify it general_question. No LLM call is made. Optional MOCK_LLM=0 extension: call the LLM to classify instead
 
-4. Wire a conditional edge from classify_intent that routes to retrieve_and_answer or direct_answer based on the classification, mirroring a graph-based intent router. This routing logic does not itself depend on MOCK_LLM — only the generation step inside each node does.
+    O retrieve_and_answer — for policy_question queries: embeds the query and retrieves the top-3 most similar chunks from ChromaDB via cosine similarity — this retrieval step always runs for real, in both modes, since embedding and ChromaDB need no API key and no network call. Only the final answer-generation step branches on MOCK_LLM. Mock mode (graded baseline): instead of calling an LLM, return a canned templated answer of the form f"Based on the retrieved context: {top_chunk_snippet}", where top_chunk_snippet is a short excerpt (e.g. the first ~200 characters) of the single most similar retrieved chunk. Optional MOCK_LLM=0 extension: prompt the real LLM (using your structured template from Task 2) to answer grounded only in the retrieved chunks. 
+
+   O direct_answer — for general_question queries: mock mode (graded baseline): return a fixed canned string (e.g. "I can only answer questions about Zepto policies right now."), with no LLM call. Optional MOCK_LLM=0 extension: prompt the LLM directly, with no retrieval.
+
+7. Wire a conditional edge from classify_intent that routes to retrieve_and_answer or direct_answer based on the classification, mirroring a graph-based intent router. This routing logic does not itself depend on MOCK_LLM — only the generation step inside each node does.
    
 5. Enforce a JSON output schema on the final answer via a Pydantic model with fields answer (string), sources (list of chunk/document IDs used, empty for general_question answers), and confidence (float 0–1). In mock mode, populate this schema deterministically from your own code — there is no LLM output to fail validation, since none was generated: e.g. sources = the ids of the chunks retrieved for policy_question, empty for general_question; confidence = a fixed value such as 1.0. In the optional MOCK_LLM=0 extension, if the real LLM's raw output fails to validate against this schema, retry up to 2 additional times with a corrective instruction before giving up and returning a clearly marked error response.
 
@@ -677,7 +822,11 @@ Embeddings — no API needed: generate embeddings locally using the open-source 
 
 # RAG Pipeline Architecture
 The Zepto Data & AI Platform implements an end-to-end Retrieval-Augmented Generation (RAG) pipeline that transforms Zepto policy documents into searchable vector representations and uses semantic retrieval to provide grounded answers to user queries.
-Full RAG Pipeline
+
+
+Full RAG Pipelin
+
+
                                                     ┌──────────────────────────┐
                                                     │  1. INGESTION            │
                                                     │  Zepto Policy Documents  │
@@ -782,9 +931,15 @@ confidence
 
 The final response is validated using the Pydantic FinalAnswer model before being returned by the FastAPI /ask endpoint.
 
-LangGraph Control Flow
+LangGraph 
+
+Control Flow
+
+
 Before retrieval, the query passes through the classify_intent node.
-                      ┌──────────────────────┐
+
+
+                       ┌──────────────────────┐
                        │      User Query      │
                        └──────────┬───────────┘
                                   │
@@ -812,82 +967,3 @@ Before retrieval, the query passes through the classify_intent node.
                          │  FinalAnswer  │
                          └───────────────┘
 
-The routing decision is based on the classified intent and does not depend on MOCK_LLM.
-
-MOCK_LLM Behaviour
-The MOCK_LLM environment variable controls the generation/classification behaviour of the LangGraph nodes.
-By default:
-MOCK_LLM=1
-
-the application runs in mock mode, which does not require a Groq API call.
-Mock Mode
-User Query
-    │
-    ▼
-classify_intent
-    │
-    ├── policy_question ──► retrieve_and_answer
-    │                         │
-    │                         ├── Query embedding
-    │                         ├── ChromaDB top-3 retrieval
-    │                         └── Mock grounded response
-    │
-    └── general_question ──► direct_answer
-                              │
-                              └── Fixed mock response
-
-For policy questions, retrieval still happens in mock mode. The retrieved context is used to construct a simple deterministic response.
-For general questions, direct_answer returns the fixed mock response:
-I can only answer questions about Zepto policies right now.
-
-Real-LLM Mode
-When:
-MOCK_LLM=0
-
-the optional Groq LLM is enabled.
-The retrieval process remains the same:
-Query
-  ↓
-Embedding
-  ↓
-ChromaDB
-  ↓
-Top-3 Retrieved Context
-  ↓
-Structured Grounding Prompt
-  ↓
-Groq LLM
-  ↓
-JSON
-  ↓
-Pydantic FinalAnswer Validation
-
-In real-LLM mode:
-classify_intent can use the LLM for intent classification.
-retrieve_and_answer performs the same ChromaDB retrieval but uses the retrieved context in the LLM generation prompt.
-direct_answer can generate a response using the LLM.
-The generated JSON is validated against the FinalAnswer Pydantic schema.
-Key Architecture Principle
-The RAG retrieval pipeline is independent of the MOCK_LLM toggle. The toggle changes how the generation/classification stages behave, not whether semantic retrieval is performed for policy questions.
-Therefore, the core data flow is:
-Policy Documents
-      ↓
-SentenceTransformer
-      ↓
-ChromaDB: zepto_documents
-      ↓
-User Query
-      ↓
-LangGraph classify_intent
-      ↓
-retrieve_and_answer
-      ↓
-Top-3 Retrieved Context
-      ↓
-Mock Response OR Groq LLM
-      ↓
-Pydantic FinalAnswer
-      ↓
-FastAPI /ask
-
-This architecture separates document indexing, semantic retrieval, orchestration, answer generation, and API serving, making each stage independently testable and allowing the real LLM to be enabled without changing the fundamental RAG retrieval workflow.
